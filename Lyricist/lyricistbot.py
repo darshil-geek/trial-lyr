@@ -53,7 +53,7 @@ async def sng(ctx,*arg):
 
   s
   lyrics_list=[]
-  await ctx.channel.send("Searching for lyrics to {}..,".format(s))
+  await ctx.channel.send("Searching for lyrics to {}...".format(s))
   song = api.search_song(s)
   if song:
       url = song.url
@@ -69,7 +69,7 @@ async def sng(ctx,*arg):
       #await ctx.channel.send(lyrics_str) #sending the lyrics in one ugly string
 
   embed= discord.Embed(
-        title = 'Embedded lyrics',
+        title = "The lyrics to "+song.title,
         description =  '\n'.join(lyrics_list),
         colour = discord.Colour.random() 
     )
@@ -163,7 +163,7 @@ async def art(ctx,*arg):
 
     await ctx.channel.send(embed=embed)
 
-    await ctx.channel.send('Guess the song using $ans [song name] ~ [artist_name]')
+    await ctx.channel.send('Guess the song using $adns [song name] ~ [artist_name]')
 
 @client.command()
 async def ans(ctx,*arg):      # $name Viva La Vida ~ Coldplay
@@ -186,7 +186,10 @@ async def ans(ctx,*arg):      # $name Viva La Vida ~ Coldplay
     name = song.title
     name = ''.join(name)
     songname = songname[:-1]
-    if songname == name :
+    #songname=songname.lower
+    #name=name.lower
+    #print(type(name))
+    if songname == name:
         await ctx.channel.send("Correct. Well done!")
     else:
         await ctx.channel.send("Incorrect. The right answer is "+ name)   
@@ -235,6 +238,8 @@ async def help(ctx):
     embed.add_field(name='6',value="`$art`: Use this command to start the quiz.(used as `$art` artist_name[ex: `$art` Imagine Dragons])", inline = False)
     embed.add_field(name='7',value="`$ans`: Use this command to give input for the asnwer of the quiz.(used as `$ans` song_name ~ artist_name[ex: `$ans` Believer ~ Imagine Dragons])", inline = False)
     embed.add_field(name='8',value="`$quotes`: Use this command to generate a lyrical quote.(used as `$quote`)", inline= False)
+    embed.add_field(name='9',value="`$invite`: Use this command to get the link to invite this bot to your server.(used as `$invite`)", inline= False)
+    embed.add_field(name='10',value="`$ping`: Use this command to check the host server's latency.(used as `$ping`)", inline= False)
     embed.set_thumbnail(url='https://cdn.discordapp.com/attachments/858669942160883724/862036601411862538/iu.png')
 
     await ctx.channel.send(embed=embed)
