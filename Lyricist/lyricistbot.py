@@ -19,16 +19,25 @@ client = commands.Bot(command_prefix = '$')
 client.remove_command("help")
 @client.event
 async def on_ready():
-  print('Bot is online !')
+  print('Bot is ready!')
 
-
-
-@client.command(aliases=['hi','hello','Hello'])
+@client.command(aliases=['hi','hello','Hello','hey','Hey'])
 async def Hi(ctx):
-    await ctx.channel.send("What's up!")
+    await ctx.channel.send("Hey,what's up!")
+
+@client.command(aliases=['Info','INFO'])
+async def info(ctx):
+  embed = discord.Embed(
+    title ='BOT INFO',
+    description ="I'm Lyricist! I'm your bot. I can search up lyrics, and even give you some pretty basic info on specific songs. \n " +
+                "I'm powered by the LyricsGenius API wrapper, which scrapes song data from the Genius website via their web api. Pretty cool huh? \n "+
+                "Type $HELP for more instructions! \n",
+    colour=discord.Color.random()
+)
+  await ctx.channel.send(embed=embed)
 
 
-
+#lyrics basic
 @client.command()
 async def sng(ctx,*arg):
   string=''
@@ -39,7 +48,7 @@ async def sng(ctx,*arg):
 
   s
   lyrics_list=[]
-  await ctx.channel.send("Searching for lyrics to {}...".format(s))
+  await ctx.channel.send("Searching for lyrics to {}..,".format(s))
   song = api.search_song(s)
   if song:
       url = song.url
@@ -55,13 +64,14 @@ async def sng(ctx,*arg):
       #await ctx.channel.send(lyrics_str) #sending the lyrics in one ugly string
 
   embed= discord.Embed(
-        title = s,
+        title = 'Embedded lyrics',
         description =  '\n'.join(lyrics_list),
         colour = discord.Colour.random() 
     )
   
   await ctx.channel.send(embed=embed) #ctx.send
 
+#lyrics advanced
 @client.command()
 async def lyr(ctx, *arg):
   string = ''
@@ -107,127 +117,26 @@ async def lyr(ctx, *arg):
   await ctx.channel.send(embed=embed) #ctx.send
 
 
-song_lyrics_quotes = [
-    "You’ve got enemies? Good, that means you actually stood up for something. – Eminem",
 
-    "You gotta be able to smile through the bullshit. – Tupac",
-
-    "I can see your sad even when you smile even when you laugh I can see if in your eyes deep inside you wanna cry. – Eminem",
-
-    "And I’m thankful for everyday that I’m givin’Both the easy and hard ones I’m livin",
-
-    "It isn’t where I am, It’s only where I’ll go from here",
-
-    'Times Are Hard for Dreamers. - Amelie',
-
-    'Don’t hold me back ’cause today all my dreams will come true! ,Good Morning Baltimore- Hairspray',
-
-    'Emancipate yourselves from mental slavery.None but ourselves can free our minds. ― Bob Marley',
-
-
-    "Don't criticize what you can't understand. ― Bob Dylan",
-
-    'funny how a beautiful song could tell such a sad story, ― Sarah Dessen, Lock and Key',
-
-    'The story of life is quicker than the wink of an eye, the story of love is hello and goodbye...until we meet again ― Jimi Hendrix',
-
-    "you're an expert at sorry and keeping the lines blurry ― Taylor Swift",
-
-
-    'Would you destroy Something perfect in order to make it beautiful?― Gerard Way',
-
-    "Get up, stand up, Stand up for your rights. Get up, stand up, Don't give up the fight. ― Bob Marley, Bob Marley - Legend",
-
-    'We all shine on...like the moon and the stars and the sun...we all shine on...come on and on and on...― john lennon',
-
-    "Close your eyes and I'll kiss you, Tomorrow I'll miss you.― Paul McCartney",
-
-    "When pain brings you down, don't be silly, don't close your eyes and cry, you just might be in the best position to see the sun shine. ― Alanis Morissette",
-
-
-    'Excuse me while I kiss the sky. ― Jimi Hendrix',
-
-
-    'You have every right to a beautiful life. ― Selena Gomez',
-
-
-    "You don't know you're beautiful. ― One Direction",
-
-    'Work it, make it, do it, makes us: harder, better, faster, stronger – Daft Punk Harder, Better, Faster',
-
-    'Sing with me, sing for the year, sing for the laughter and sing it for the tear. – Aerosmith “Dream On',
-
-    'Would you destroy Something perfect in order to make it beautiful? ― Gerard Way',
-
-    'I think there is a song out there to describe just about any situation. ― Criss Jami, Killosophy',
-
-    'When pain brings you down, don’t be silly, don’t close your eyes and cry, you just might be in the best position to see the sun shine. ― Alanis Morissette',
-
-    'Love me or hate me, i swear it won’t make or break me. ― Lil Wayne',
-
-    'It’s my life and it’s now or never! Cause I ain’t gonna live forever, I just want live while I’m alive. It’s my life! – Bon Jovi “It’s My Life',
-
-    'Get up, stand up, Stand up for your rights. Get up, stand up, Don’t give up the fight. ― Bob Marley, Bob Marley – Legend',
-
-    'And if at first your don’t succeed, then dust yourself off and try again! – Aaliyah Try Again',
-
-    'Don’t criticize what you can’t understand. ― Bob Dylan',
-
-    'I won’t be afraid just as long as you stand, stand by me. – Ben E. King Stand By Me',
-
-    'I’m a survivor, I’m not gonna give up, I’m not gonna, stop I’m gonna work harder. – Destiny’s Child “Survivor',
-
-    'The story of life is quicker than the wink of an eye, the story of love is hello and goodbye…until we meet again ― Jimi Hendrix',
-
-    'You’re an expert at sorry and keeping the lines blurry. ― Taylor Swift',
-
-    'I will survive! Oh as long as I know how to love I know I will stay alive! – Gloria Gaynor I Will Survive',
-
-    'We are the world, we are the children, we are the ones who make a brighter day, so let’s start giving. – United Support of Artists for Africa We Are The World',
-
-    'Every little thing is gonna be alright! – Bob Marley',
-
-    'Don’t give up. You’ve got a reason to live. Can’t forget you only get what you give. – New Radicals “You Get What You Give',
-
-    'You may say I’m a dreamer, but I’m not the only one. – John Lennon, Imagine',
-
-    'You only get one shot, do not miss your chance to blow. This opportunity comes once in a lifetime – Eminem Lose Yourself',
-
-    'I’d rather laugh with the sinners than cry with the saints, the sinners are much more fun. ― Billy Joel',
-
-    'Don’t stop, never give up. Hold your head high and reach the top. Let the world see what you have got. Bring it all back to you. – S Club 7 ,Bring it all back'
-]
-
-lyrics_quotes=song_lyrics_quotes.copy()
-
-
-
-
-@client.command()
-async def quotes(ctx):
-    x=random.randint(1,30)
-    quote=song_lyrics_quotes.pop(x)
-    embed= discord.Embed(
-        title = "Music Quote",
-        description =  quote,
-        colour = discord.Colour.random() 
-    )
-    await ctx.channel.send(embed=embed)
-
+#artist quiz
 rando = random.randint(0,2)
 artist_name=''
-#artist quiz
-#song
 @client.command()
 async def quiz(ctx):
-  await ctx.channel.send("How well do you know your favourite artist? Let's see if you can identify some of their best tracks! \n Enter an artist's name:(ex: $art The Weeknd) \n Identify the song from the lyrics:(ex: $name Starboy) : \n")
+  embed = discord.Embed(
+    title = 'Quiz',
+    description = "\n How well do you know your favourite artist? Let's see if you can identify some of their best tracks! \n Enter an artist's name:(ex: $art The Weeknd) \n Identify the song from the lyrics:(ex: $ans Starboy ~ The Weeknd) : \n",
+    colour = discord.Colour.random()
+  )
+
+  await ctx.channel.send(embed=embed)
+
 @client.command()
 async def art(ctx,*arg):
     artist_name=''                #empty string to store artist name
     string = arg
     for str in string:
-        artist_name = artist_name+ str
-    #artist_name                   #string stored artist name
+        artist_name = artist_name + str
     await ctx.channel.send("Please wait for the lyrics....\n")
     artist = api.search_artist(artist_name, max_songs=3)
     song = artist.songs.pop(rando)
@@ -249,52 +158,68 @@ async def art(ctx,*arg):
 
     await ctx.channel.send(embed=embed)
 
-    await ctx.channel.send('Guess the song using $name [song name] ~ [artist_name]')
+    await ctx.channel.send('Guess the song using $ans [song name] ~ [artist_name]')
 
 @client.command()
-async def name(ctx,*arg):      # $name Viva la vida ~ Coldplay
-    string=''
+async def ans(ctx,*arg):      # $name Viva La Vida ~ Coldplay
+    await ctx.channel.send('Please wait for the result....')
     artist_name=''
-    song_name=''
-    
-    string=arg
+    songname=''                    #empty string to store song name
+    string = arg
     for str in string:
-      if(str == '~'):
-        break
-      song_name = song_name + str + " "
-    #song_name.pop(0)
-    song_= string[string.index('~') : len(string)]
-    for _a in song_ :
-      if(_a == '~'):
-        continue
-      artist_name = artist_name + " " + _a
-
+        if str == '~':
+            break
+        songname = songname + str + " "
+    a=string[string.index('~') : len(string)]
+    for str in a:
+        if str == '~':
+            continue
+        artist_name = artist_name+" "+ str  #string stored artist name
+               
     artist = api.search_artist(artist_name,max_songs=3)
     song = artist.songs.pop(rando)
-    name=song.title
-    name_str=''.join(name)
-    
-    song_name=song_name[:-1]
-    if song_name == name_str :
-        await ctx.channel.send("Correct")
+    name = song.title
+    name = ''.join(name)
+    songname = songname[:-1]
+    if songname == name :
+        await ctx.channel.send("Correct. Well done!")
     else:
-        await ctx.channel.send("Incorrect")
+        await ctx.channel.send("Incorrect. The right answer is "+ name)   
 
 
-#for help
+#quotes
+
+from quotes import song_lyrics_quotes
 @client.command()
+async def quotes(ctx):
+  x=random.randint(0,41)
+  lyricsquotes = song_lyrics_quotes.copy()
+  discordquote = lyricsquotes.pop(x)
+  embed= discord.Embed(
+        title = "Music Quote",
+        description =  discordquote,
+        colour = discord.Colour.random() 
+    )
+  await ctx.channel.send(embed=embed)
+
+
+#help
+@client.command(aliases=['Help'])
 async def help(ctx):
     embed= discord.Embed(
         title = 'Lyricist command list',
         description = 'Here you can find a list of commands you can use.',
         colour = discord.Colour.random() 
     )
-    embed.add_field(name='$help',value='Use this command to get help about how to use the bot.',inline = True)
-    embed.add_field(name='$sng',value='Use this command to get lyrics of songs.(used as $sng song_name)',inline = True)
-    embed.add_field(name='$lyr',value='This command is to be used if you do not get the desired lyrics using the $sng command.(used as $lyr artist_name ~ song_name)',inline = False)
-
-    
-    embed.set_thumbnail(url='https://cdn.discordapp.com/attachments/845583163258437632/861258715181350912/iu.png')
+    embed.add_field(name='1',value='`$help`: Use this command to get help about how to use the bot.',inline = False)
+    embed.add_field(name='2',value='`$info`: Use this command to get basic info of the bot.',inline = False)
+    embed.add_field(name='3',value='`$lyr`: Use this command to get lyrics of songs.(used as `$lyr` artist_name ~ song_name[ex: `$lyr` Coldplay ~ Viva la Vida])',inline = False)
+    embed.add_field(name='4',value="`$sng`: Use this command to get lyrics of songs.(used as `$sng` song_name[ex: $sng Demons]) .Use `$lyr` if the specified song can't be found])",inline = False)
+    embed.add_field(name='5',value="`$quiz`: Use this command for a quiz. Follow the commands given religiously",inline = False)
+    embed.add_field(name='6',value="`$art`: Use this command to start the quiz.(used as `$art` artist_name[ex: `$art` Imagine Dragons])", inline = False)
+    embed.add_field(name='7',value="`$ans`: Use this command to give input for the asnwer of the quiz.(used as `$ans` song_name ~ artist_name[ex: `$ans` Believer ~ Imagine Dragons])", inline = False)
+    embed.add_field(name='8',value="`$quotes`: Use this command to generate a lyrical quote.(used as `$quote`)", inline= False)
+    embed.set_thumbnail(url='https://cdn.discordapp.com/attachments/858669942160883724/862036601411862538/iu.png')
 
     await ctx.channel.send(embed=embed)
 
