@@ -294,7 +294,7 @@ async def help(ctx):
     embed.add_field(name='$lyr',value='This command is to be used if you do not get the desired lyrics using the $sng command.(used as $lyr artist_name ~ song_name)',inline = False)
 
     
-    embed.set_thumbnail(url='https://picsum.photos/200/300')
+    embed.set_thumbnail(url='https://cdn.discordapp.com/attachments/845583163258437632/861258715181350912/iu.png')
 
     await ctx.channel.send(embed=embed)
 
