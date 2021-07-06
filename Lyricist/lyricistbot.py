@@ -36,6 +36,11 @@ async def info(ctx):
 )
   await ctx.channel.send(embed=embed)
 
+@client.command()
+async def invite(ctx):
+    embed = discord.Embed(title="Invite Lyricist Bot to your Discord Server", url="https://discord.com/api/oauth2/authorize?client_id=860175251559022652&permissions=8&scope=bot",
+                          description="Use the following link: https://discord.com/api/oauth2/authorize?client_id=860175251559022652&permissions=8&scope=bot", color=discord.Color.random())
+    await ctx.send(embed=embed)
 
 #lyrics basic
 @client.command()
