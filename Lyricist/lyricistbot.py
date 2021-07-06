@@ -208,6 +208,17 @@ async def quotes(ctx):
   await ctx.channel.send(embed=embed)
 
 
+
+@client.command()
+async def ping(ctx):
+    embed = discord.Embed(
+        color=discord.Color.blue(),
+        title="Lyricist Bot - Ping Test",
+        description=f"Pong! {round(client.latency * 1000, 2)} ms"
+    )
+    await ctx.send(embed=embed)
+
+
 #help
 @client.command(aliases=['Help'])
 async def help(ctx):
