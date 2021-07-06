@@ -36,6 +36,11 @@ async def info(ctx):
 )
   await ctx.channel.send(embed=embed)
 
+@client.command()
+async def invite(ctx):
+    embed = discord.Embed(title="Invite Lyricist Bot to your Discord Server", url="https://discord.com/api/oauth2/authorize?client_id=860175251559022652&permissions=8&scope=bot",
+                          description="Use the following link: https://discord.com/api/oauth2/authorize?client_id=860175251559022652&permissions=8&scope=bot", color=discord.Color.random())
+    await ctx.send(embed=embed)
 
 #lyrics basic
 @client.command()
@@ -201,6 +206,17 @@ async def quotes(ctx):
         colour = discord.Colour.random() 
     )
   await ctx.channel.send(embed=embed)
+
+
+
+@client.command()
+async def ping(ctx):
+    embed = discord.Embed(
+        color=discord.Color.blue(),
+        title="Lyricist Bot - Ping Test",
+        description=f"Pong! {round(client.latency * 1000, 2)} ms"
+    )
+    await ctx.send(embed=embed)
 
 
 #help
