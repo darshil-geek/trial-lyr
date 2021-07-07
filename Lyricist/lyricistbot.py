@@ -220,11 +220,7 @@ async def ping(ctx):
         description=f"Pong! {round(client.latency * 1000, 2)} ms"
     )
     await ctx.send(embed=embed)
-#emote = 'https://cdn.discordapp.com/emojis/792797495431528519.png?v=1'
-@client.event
-async def on_message(message):
-    if client.user.mentioned_in(message):
-        await message.channel.send(f"no pinging bot {message.author.mention} <:kekw:862204617159868437>")
+
 
 #help
 @client.command(aliases=['Help'])
