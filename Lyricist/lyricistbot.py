@@ -1,8 +1,9 @@
 import discord
+from discord import activity
 import lyricsgenius as genius
 import config
 import random
-
+from discord import Spotify
 api = genius.Genius('aKDMKgolc1ZSD_DDH-QjK2YyRymM1_Jc2jFdAkThZLmCAwg0mMYhfdnsbnOrD_Nu') #add genius bot token
 #api = genius.Genius(config.GENIUS_TOKEN)
 from dotenv import load_dotenv
@@ -10,12 +11,14 @@ load_dotenv()
 import os
 token = os.environ.get("TOKEN")
 from discord.ext import commands
-from discord.ext.commands import Bot
+from discord import Spotify
+from discord.ext.commands import Bot, bot
+intents = discord.Intents.all()
 
-#TOKEN = '' #add discord bot token
-#TOKEN = config.BOT_TOKEN
 
-client = commands.Bot(command_prefix = '$')
+
+
+client = commands.Bot(command_prefix = '.',intents=intents)
 client.remove_command("help")
 @client.event
 async def on_ready():
@@ -24,6 +27,13 @@ async def on_ready():
 @client.command(aliases=['hi','hello','Hello','hey','Hey'])
 async def Hi(ctx):
     await ctx.channel.send("Hey,what's up!")
+
+
+'''@client.event
+async def on_message(message):
+    if client.user.mentioned_in(message):
+        await message.channel.send(f"no pinging bot {message.author.mention} <:kekw:862204617159868437>")
+'''
 
 @client.command(aliases=['Info','INFO'])
 async def info(ctx):
@@ -35,6 +45,43 @@ async def info(ctx):
     colour=discord.Color.random()
 )
   await ctx.channel.send(embed=embed)
+
+
+@client.command()
+async def spt(ctx, user: discord.Member = None):
+    user = user or ctx.author
+    str='darshil'
+    spotify_result = str
+    for activity in user.activities:
+        if isinstance(activity,discord.Spotify):
+            spotify_result = activity
+
+    if spotify_result!= None:
+      
+      lyrics_list=[]
+      await ctx.channel.send("Searching for lyrics to {}...".format(spotify_result.title))
+      song = api.search_song(spotify_result.title)
+      if song:
+        url = song.url
+        await ctx.channel.send("Here's a link to the annotated lyrics: \n{}".format(url))
+        lyrics = song.lyrics.split("\n")
+        for line in lyrics:
+            if line == '':
+              lyrics.remove(line)
+            else:
+              lyrics_list.append(line)
+            
+
+      embed= discord.Embed(
+        title = "The lyrics to "+song.title,
+        description =  '\n'.join(lyrics_list),
+        colour = discord.Colour.random() 
+    )
+  
+      await ctx.channel.send(embed=embed)
+
+    
+
 
 @client.command()
 async def invite(ctx):
@@ -221,10 +268,6 @@ async def ping(ctx):
     )
     await ctx.send(embed=embed)
 #emote = 'https://cdn.discordapp.com/emojis/792797495431528519.png?v=1'
-@client.event
-async def on_message(message):
-    if client.user.mentioned_in(message):
-        await message.channel.send(f"no pinging bot {message.author.mention} <:kekw:862204617159868437>")
 
 #help
 @client.command(aliases=['Help'])
@@ -247,5 +290,7 @@ async def help(ctx):
     embed.set_thumbnail(url='https://cdn.discordapp.com/attachments/858669942160883724/862036601411862538/iu.png')
 
     await ctx.channel.send(embed=embed)
+
+
 
 client.run(token)
