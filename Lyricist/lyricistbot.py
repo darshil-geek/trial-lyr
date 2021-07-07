@@ -267,7 +267,8 @@ async def ping(ctx):
         description=f"Pong! {round(client.latency * 1000, 2)} ms"
     )
     await ctx.send(embed=embed)
-#emote = 'https://cdn.discordapp.com/emojis/792797495431528519.png?v=1'
+
+   
 
 #help
 @client.command(aliases=['Help'])
